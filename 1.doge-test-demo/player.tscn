@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://d1derqmsbq6w3"]
+
+[ext_resource type="Texture2D" uid="uid://ftkxr8r4qghp" path="res://art/playerGrey_walk1.png" id="1_hqtel"]
+[ext_resource type="Script" uid="uid://w3ujoj68dddo" path="res://player.gd" id="1_sweqy"]
+[ext_resource type="Texture2D" uid="uid://couyhcegeihme" path="res://art/playerGrey_walk2.png" id="2_sweqy"]
+[ext_resource type="Texture2D" uid="uid://b4yyoafu8bi0q" path="res://art/playerGrey_up1.png" id="3_2hs0m"]
+[ext_resource type="Texture2D" uid="uid://bko65a0nd66st" path="res://art/playerGrey_up2.png" id="4_1jxqw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dw050"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hqtel")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_sweqy")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_2hs0m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1jxqw")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b26j0"]
+radius = 27.0
+height = 70.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n7ghd"]
+load_path = "res://.godot/imported/playerGrey_walk1.png-c4773fe7a7bf85d7ab732eb4458c2742.ctex"
+
+[sub_resource type="Gradient" id="Gradient_2hs0m"]
+colors = PackedColorArray(1, 1, 1, 0.5176471, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1jxqw"]
+gradient = SubResource("Gradient_2hs0m")
+
+[sub_resource type="Curve" id="Curve_dw050"]
+_data = [Vector2(0.006578952, 0.48387098), 0.0, 0.0, 0, 0, Vector2(1, 0.26881725), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_b26j0"]
+curve = SubResource("Curve_dw050")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nvl01"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_b26j0")
+color_ramp = SubResource("GradientTexture1D_1jxqw")
+
+[node name="Player" type="Area2D" unique_id=1028348603]
+script = ExtResource("1_sweqy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=849002980]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_dw050")
+animation = &"right"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2087702875]
+shape = SubResource("CapsuleShape2D_b26j0")
+
+[node name="Trail" type="GPUParticles2D" parent="." unique_id=1943392256]
+z_index = -1
+amount = 10
+texture = SubResource("CompressedTexture2D_n7ghd")
+speed_scale = 2.0
+process_material = SubResource("ParticleProcessMaterial_nvl01")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

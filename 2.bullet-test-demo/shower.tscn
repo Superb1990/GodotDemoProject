@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://qx06upxo56g6"]
+
+[ext_resource type="Script" uid="uid://byalft2gw87pi" path="res://player.gd" id="1_l5olk"]
+[ext_resource type="Script" uid="uid://dpa4kofe5w6e0" path="res://bullets.gd" id="1_o3dax"]
+[ext_resource type="Texture2D" uid="uid://dvmthvl1ot73g" path="res://img/face_happy.png" id="2_o3dax"]
+[ext_resource type="Texture2D" uid="uid://cfpch6y5q6dy8" path="res://img/face_sad.png" id="3_kfcl0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3whqu"]
+radius = 27.294687
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o1o75"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_o3dax")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kfcl0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Shower" type="Node2D" unique_id=228447383]
+
+[node name="Bullets" type="Node2D" parent="." unique_id=1307061577]
+script = ExtResource("1_o3dax")
+
+[node name="Player" type="Area2D" parent="." unique_id=562784752]
+script = ExtResource("1_l5olk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1389130847]
+shape = SubResource("CircleShape2D_3whqu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1946560957]
+sprite_frames = SubResource("SpriteFrames_o1o75")
+
+[connection signal="body_shape_entered" from="Player" to="Player" method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="Player" to="Player" method="_on_body_shape_exited"]
