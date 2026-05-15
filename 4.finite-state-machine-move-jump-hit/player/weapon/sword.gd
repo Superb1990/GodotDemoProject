@@ -50,9 +50,28 @@ var hit_objects := []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	#连接  动画播放器 动画完成时 的  信号
+	$AnimationPlayer.animation_finished.connect(_on_animation_finished)
+	#连接 区域进入 信号
+	body_entered.connect(_on_body_entered)
+	#初始化状态为空闲
+	_change_state(States.IDLE)
 
+
+func _change_state(new_state:States)->void:
+	match state:
+		States.ATTACK:
+			hit_objects = [] # 清空命中列表
+			attack_input_state=AttackInputStates.LISTENING #重置为监听状态
+			ready_for_next_attack = false #重置 准备状态
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	pass
+	
+func _on_animation_finished(_name : String) ->void:
+	pass
+	
+func _on_body_entered(body:Node2D)->void:
 	pass
