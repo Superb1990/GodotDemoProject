@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://doo0xy4hpwrfq"]
+
+[ext_resource type="Texture2D" uid="uid://crio2bml8ywhu" path="res://player/shadow.png" id="1_g1dw6"]
+[ext_resource type="Script" uid="uid://v2jr8m60y1sp" path="res://player/player_state_machine.gd" id="1_qjkh3"]
+[ext_resource type="Texture2D" uid="uid://by4ok3iv0oclr" path="res://player/body.png" id="2_yw30f"]
+[ext_resource type="PackedScene" uid="uid://dvi5848y4kjqn" path="res://player/weapon/sword.tscn" id="3_qjkh3"]
+[ext_resource type="Script" uid="uid://b0l05wm0r20jt" path="res://player/states/stae_name_displayer.gd" id="4_yw30f"]
+
+[node name="Player" type="CharacterBody2D" unique_id=703582597]
+
+[node name="StateMachine" type="Node" parent="." unique_id=694201901]
+script = ExtResource("1_qjkh3")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=789219554]
+
+[node name="Move" type="Node" parent="StateMachine" unique_id=1901062628]
+
+[node name="Jump" type="Node" parent="StateMachine" unique_id=1270929044]
+
+[node name="Stagger" type="Node" parent="StateMachine" unique_id=604437555]
+
+[node name="Attack" type="Node" parent="StateMachine" unique_id=1800133717]
+
+[node name="Die" type="Node" parent="StateMachine" unique_id=7720088]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1179062629]
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1023039821]
+texture = ExtResource("1_g1dw6")
+
+[node name="BodyPivot" type="Marker2D" parent="." unique_id=582778652]
+
+[node name="Body" type="Sprite2D" parent="BodyPivot" unique_id=889257881]
+position = Vector2(0, -53)
+texture = ExtResource("2_yw30f")
+
+[node name="BulletSpawn" type="Node2D" parent="BodyPivot" unique_id=1178450939]
+
+[node name="CoolDownTimer" type="Timer" parent="BodyPivot/BulletSpawn" unique_id=1556143909]
+
+[node name="WeaponPivot" type="Marker2D" parent="BodyPivot" unique_id=76558522]
+position = Vector2(0, -53)
+
+[node name="Offset" type="Marker2D" parent="BodyPivot/WeaponPivot" unique_id=623970655]
+position = Vector2(110, 0)
+
+[node name="Sword" parent="BodyPivot/WeaponPivot/Offset" unique_id=520734713 instance=ExtResource("3_qjkh3")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=828639827]
+scale = Vector2(3.08, 1.2400005)
+polygon = PackedVector2Array(-6.818182, -7.2580614, 7.467532, -7.2580614, 7.467532, 7.2580614, -6.818182, 7.2580614)
+
+[node name="StaeNameDisplayer" type="Label" parent="." unique_id=1926186199]
+offset_left = -60.0
+offset_top = -162.0
+offset_right = 60.0
+offset_bottom = -134.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 21
+text = "IDLE"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_yw30f")
