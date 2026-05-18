@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d3lk5oh2pliot"]
+
+[ext_resource type="Script" uid="uid://2q6ci2yomjsb" path="res://预加载.gd" id="1_nrpvg"]
+
+[node name="预加载" type="Node" unique_id=955506227]
+script = ExtResource("1_nrpvg")
