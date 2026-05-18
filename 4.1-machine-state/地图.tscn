@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bvewgrwjm2gxt"]
+
+[ext_resource type="Script" uid="uid://di18x8bjt85ev" path="res://角色.gd" id="1_irod6"]
+[ext_resource type="Texture2D" uid="uid://c4q2lydxo7n0" path="res://icon.svg" id="2_yoofg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8lb16"]
+size = Vector2(127, 127)
+
+[node name="地图" type="Node2D" unique_id=606823094]
+
+[node name="角色" type="CharacterBody2D" parent="." unique_id=1452530595]
+position = Vector2(552, 300)
+script = ExtResource("1_irod6")
+
+[node name="贴图" type="Sprite2D" parent="角色" unique_id=1784417458]
+texture = ExtResource("2_yoofg")
+
+[node name="墙体碰撞" type="CollisionShape2D" parent="角色" unique_id=48184074]
+position = Vector2(1.5, -0.5)
+shape = SubResource("RectangleShape2D_8lb16")
+
+[node name="状态机" type="Node" parent="角色" unique_id=86143160]
