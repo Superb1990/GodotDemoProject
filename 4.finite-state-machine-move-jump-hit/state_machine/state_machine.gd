@@ -20,7 +20,7 @@ var current_state:Node= null
 var _active := false:
 	set(value):
 		_active = value
-		#set_active(value)  #设置激活状态
+		set_active(value)  #设置激活状态
 
 #节点进入场景树时调用
 func _enter_tree()-> void :
@@ -30,9 +30,9 @@ func _enter_tree()-> void :
 	
 	#为所有子节点连接 finished信号
 	for child in get_children():
-		#var err:bool=child.finished.connect(_change_stete)
-		#if err:
-			#printerr(err)
+		var err:bool=child.finished.connect(_change_state)
+		if err:
+			printerr(err)
 		pass
 	#初始化状态机
 	initialize(start_state)
@@ -44,6 +44,38 @@ func initialize(initial_state:NodePath) -> void:
 	current_state = states_stack[0]  #设置当前状态
 	current_state.enter()   # 调用进入状态方法
 
+#设置激活状态
+func set_active(value:bool)-> void:
+	set_physics_process(value) #启用/禁用 物理处理
+	set_process_input(value) # 启用/禁用 输入处理
 	
+	if not _active : #如果设置为非激活
+		states_stack=[] #清空状态栈
+		current_state = null #清空当前状态
 	
+# 未处理的输入事件
+func _unhandled_input(event: InputEvent) -> void:
+	current_state.handle_input(event)  #委托给当前状态处理
 	
+#物理处理过程
+func _physics_process(delta: float) -> void:
+	current_state.update(delta) #委托给当前状态处理
+
+#动画完成时调用
+func _on_animation_finished(anim_name:String) ->void:
+	if not _active: #如果非激活则返回
+		return
+	
+	current_state._on_animation_finished(anim_name)  #委托给当前状态处理
+
+#改变状态
+func _change_state(state_name:String) -> void:
+	if not _active: #如果非激活状态则返回
+		return
+	current_state.exit() #退出当前状态
+	if state_name == "previous": #如果切换到上一个状态
+		states_stack.pop_front() #弹出栈顶状态
+	else :
+		states_stack[0] = states_map[state_name] #替换栈顶状态
+	
+	current_state = states_stack[0] #更新当前状态

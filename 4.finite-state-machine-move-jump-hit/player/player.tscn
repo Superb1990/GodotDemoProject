@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://v2jr8m60y1sp" path="res://player/player_state_machine.gd" id="1_qjkh3"]
 [ext_resource type="Texture2D" uid="uid://by4ok3iv0oclr" path="res://player/body.png" id="2_yw30f"]
 [ext_resource type="PackedScene" uid="uid://dvi5848y4kjqn" path="res://player/weapon/sword.tscn" id="3_qjkh3"]
-[ext_resource type="Script" uid="uid://b0l05wm0r20jt" path="res://player/states/stae_name_displayer.gd" id="4_yw30f"]
+[ext_resource type="Script" uid="uid://s4pe7o1lh7h1" path="res://player/weapon/weapon_pivot.gd" id="4_g6k8r"]
+[ext_resource type="Script" uid="uid://b0l05wm0r20jt" path="res://player/states/debug/state_name_displayer.gd" id="4_yw30f"]
 
 [node name="Player" type="CharacterBody2D" unique_id=703582597]
 
@@ -40,6 +41,7 @@ texture = ExtResource("2_yw30f")
 
 [node name="WeaponPivot" type="Marker2D" parent="BodyPivot" unique_id=76558522]
 position = Vector2(0, -53)
+script = ExtResource("4_g6k8r")
 
 [node name="Offset" type="Marker2D" parent="BodyPivot/WeaponPivot" unique_id=623970655]
 position = Vector2(110, 0)
@@ -50,7 +52,7 @@ position = Vector2(110, 0)
 scale = Vector2(3.08, 1.2400005)
 polygon = PackedVector2Array(-6.818182, -7.2580614, 7.467532, -7.2580614, 7.467532, 7.2580614, -6.818182, 7.2580614)
 
-[node name="StaeNameDisplayer" type="Label" parent="." unique_id=1926186199]
+[node name="StateNameDisplayer" type="Label" parent="." unique_id=1926186199]
 offset_left = -60.0
 offset_top = -162.0
 offset_right = 60.0
@@ -62,3 +64,5 @@ text = "IDLE"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_yw30f")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="StateMachine/Move" method="_on_animation_finished"]
