@@ -1,28 +1,43 @@
 [gd_scene format=3 uid="uid://doo0xy4hpwrfq"]
 
 [ext_resource type="Texture2D" uid="uid://crio2bml8ywhu" path="res://player/shadow.png" id="1_g1dw6"]
+[ext_resource type="Script" uid="uid://bv5uhfwo6d8rq" path="res://player/player_controller.gd" id="1_kb6p2"]
 [ext_resource type="Script" uid="uid://v2jr8m60y1sp" path="res://player/player_state_machine.gd" id="1_qjkh3"]
+[ext_resource type="Script" uid="uid://6pywgrhkbpvv" path="res://player/states/motion/on_ground/idle.gd" id="2_rgyib"]
 [ext_resource type="Texture2D" uid="uid://by4ok3iv0oclr" path="res://player/body.png" id="2_yw30f"]
+[ext_resource type="Script" uid="uid://dp4p4t60gtqr5" path="res://player/states/motion/on_ground/move.gd" id="3_hg6s5"]
 [ext_resource type="PackedScene" uid="uid://dvi5848y4kjqn" path="res://player/weapon/sword.tscn" id="3_qjkh3"]
+[ext_resource type="Script" uid="uid://crrn76k3vwak1" path="res://player/states/motion/in_air/jump.gd" id="4_8t03j"]
+[ext_resource type="Script" uid="uid://b3rnd6dovbbma" path="res://player/bullet/bullet_spawn.gd" id="4_boad6"]
 [ext_resource type="Script" uid="uid://s4pe7o1lh7h1" path="res://player/weapon/weapon_pivot.gd" id="4_g6k8r"]
 [ext_resource type="Script" uid="uid://b0l05wm0r20jt" path="res://player/states/debug/state_name_displayer.gd" id="4_yw30f"]
+[ext_resource type="Script" uid="uid://cul0mwxr48jyi" path="res://player/states/combat/stagger.gd" id="5_2ieo8"]
+[ext_resource type="Script" uid="uid://bnch25sg6e80j" path="res://player/states/combat/attack.gd" id="6_ebec5"]
+[ext_resource type="Script" uid="uid://bwvsxr2wy4b87" path="res://player/states/die.gd" id="7_yllr7"]
 
 [node name="Player" type="CharacterBody2D" unique_id=703582597]
+script = ExtResource("1_kb6p2")
 
 [node name="StateMachine" type="Node" parent="." unique_id=694201901]
 script = ExtResource("1_qjkh3")
 
 [node name="Idle" type="Node" parent="StateMachine" unique_id=789219554]
+script = ExtResource("2_rgyib")
 
 [node name="Move" type="Node" parent="StateMachine" unique_id=1901062628]
+script = ExtResource("3_hg6s5")
 
 [node name="Jump" type="Node" parent="StateMachine" unique_id=1270929044]
+script = ExtResource("4_8t03j")
 
 [node name="Stagger" type="Node" parent="StateMachine" unique_id=604437555]
+script = ExtResource("5_2ieo8")
 
 [node name="Attack" type="Node" parent="StateMachine" unique_id=1800133717]
+script = ExtResource("6_ebec5")
 
 [node name="Die" type="Node" parent="StateMachine" unique_id=7720088]
+script = ExtResource("7_yllr7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1179062629]
 
@@ -36,8 +51,11 @@ position = Vector2(0, -53)
 texture = ExtResource("2_yw30f")
 
 [node name="BulletSpawn" type="Node2D" parent="BodyPivot" unique_id=1178450939]
+script = ExtResource("4_boad6")
 
 [node name="CoolDownTimer" type="Timer" parent="BodyPivot/BulletSpawn" unique_id=1556143909]
+wait_time = 0.2
+one_shot = true
 
 [node name="WeaponPivot" type="Marker2D" parent="BodyPivot" unique_id=76558522]
 position = Vector2(0, -53)
@@ -65,4 +83,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_yw30f")
 
+[connection signal="state_changed" from="StateMachine" to="BodyPivot/WeaponPivot/Offset/Sword" method="_on_StateMachine_state_changed"]
+[connection signal="state_changed" from="StateMachine" to="StateNameDisplayer" method="_on_StateMachine_state_changed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="StateMachine/Move" method="_on_animation_finished"]
+[connection signal="attack_finished" from="BodyPivot/WeaponPivot/Offset/Sword" to="StateMachine/Attack" method="_on_sword_attack_finished"]
