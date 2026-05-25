@@ -7,7 +7,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	position =$"../BodyPivot".position + start_postion
 
 func _on_StateMachine_state_changed(current_state:Node)->void:

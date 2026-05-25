@@ -7,7 +7,7 @@ var direction := Vector2()
 @export var speed := 1000.0
 
 #获取场景根节点
-@export var root := get_tree().root
+@onready var root := get_tree().root
 
 #节点就绪时调用
 func _ready() -> void:
@@ -30,4 +30,4 @@ func _physics_process(delta: float) -> void:
 func _draw()->void:
 	#绘制一个圆形（用于调试或可视化）
 	#位置 ： Vector2() 表示本地坐标原点
-	draw_circle(Vector2(),$CollisionShape2D.shape.radius,Color.WHEAT)
+	draw_circle(Vector2(),$CollisionShape2D.shape.radius,Color.WHITE)

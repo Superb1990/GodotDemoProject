@@ -72,6 +72,7 @@ func _on_animation_finished(anim_name:String) ->void:
 func _change_state(state_name:String) -> void:
 	if not _active: #如果非激活状态则返回
 		return
+	print(current_state.name)
 	current_state.exit() #退出当前状态
 	if state_name == "previous": #如果切换到上一个状态
 		states_stack.pop_front() #弹出栈顶状态
@@ -79,3 +80,8 @@ func _change_state(state_name:String) -> void:
 		states_stack[0] = states_map[state_name] #替换栈顶状态
 	
 	current_state = states_stack[0] #更新当前状态
+	state_changed.emit(current_state) #发射状态改变信号
+	
+	#如果不是切换到上一个状态
+	if state_name != "previous":
+		current_state.enter()  #调用新状态的进入方法

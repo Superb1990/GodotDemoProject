@@ -41,6 +41,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	#检车攻击按键按下
 	if event.is_action_pressed("attack"):
+		print(current_state.name)
 		#如果当前是攻击或者受击中台，忽略攻击输入
 		if current_state in [attack,stagger]:
 			return

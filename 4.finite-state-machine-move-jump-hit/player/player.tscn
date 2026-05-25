@@ -15,11 +15,57 @@
 [ext_resource type="Script" uid="uid://bnch25sg6e80j" path="res://player/states/combat/attack.gd" id="6_ebec5"]
 [ext_resource type="Script" uid="uid://bwvsxr2wy4b87" path="res://player/states/die.gd" id="7_yllr7"]
 
+[sub_resource type="Animation" id="Animation_kb6p2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyPivot/Body:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wodsf"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_32hag"]
+resource_name = "stagger"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyPivot/Body:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.050449163, 0.1, 0.15, 0.2, 0.25, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tqiix"]
+resource_name = "walk"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e7oew"]
+_data = {
+&"RESET": SubResource("Animation_kb6p2"),
+&"idle": SubResource("Animation_wodsf"),
+&"stagger": SubResource("Animation_32hag"),
+&"walk": SubResource("Animation_tqiix")
+}
+
 [node name="Player" type="CharacterBody2D" unique_id=703582597]
 script = ExtResource("1_kb6p2")
 
 [node name="StateMachine" type="Node" parent="." unique_id=694201901]
 script = ExtResource("1_qjkh3")
+start_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" unique_id=789219554]
 script = ExtResource("2_rgyib")
@@ -40,6 +86,7 @@ script = ExtResource("6_ebec5")
 script = ExtResource("7_yllr7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1179062629]
+libraries/ = SubResource("AnimationLibrary_e7oew")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1023039821]
 texture = ExtResource("1_g1dw6")
@@ -51,6 +98,7 @@ position = Vector2(0, -53)
 texture = ExtResource("2_yw30f")
 
 [node name="BulletSpawn" type="Node2D" parent="BodyPivot" unique_id=1178450939]
+position = Vector2(0, -58)
 script = ExtResource("4_boad6")
 
 [node name="CoolDownTimer" type="Timer" parent="BodyPivot/BulletSpawn" unique_id=1556143909]
@@ -85,5 +133,5 @@ script = ExtResource("4_yw30f")
 
 [connection signal="state_changed" from="StateMachine" to="BodyPivot/WeaponPivot/Offset/Sword" method="_on_StateMachine_state_changed"]
 [connection signal="state_changed" from="StateMachine" to="StateNameDisplayer" method="_on_StateMachine_state_changed"]
-[connection signal="animation_finished" from="AnimationPlayer" to="StateMachine/Move" method="_on_animation_finished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="StateMachine" method="_on_animation_finished"]
 [connection signal="attack_finished" from="BodyPivot/WeaponPivot/Offset/Sword" to="StateMachine/Attack" method="_on_sword_attack_finished"]

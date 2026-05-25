@@ -7,8 +7,8 @@ func handle_input(event : InputEvent) -> void:
 		
 func get_input_direction()-> Vector2:
 	return Vector2(
-		Input.get_axis(&"move_left",&"move_right"),
-		Input.get_axis(&"move_up",&"move_down")
+		Input.get_axis("ui_left","ui_right"),
+		Input.get_axis("ui_up","ui_down")
 	)
 
 func update_look_direction(direction:Vector2)->void:

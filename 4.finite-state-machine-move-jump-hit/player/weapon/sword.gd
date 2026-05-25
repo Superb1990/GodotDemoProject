@@ -93,10 +93,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		attack_input_state = AttackInputStates.REGISTERED # 标记输入已注册
 
 # 物理处理过程
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if attack_input_state == AttackInputStates.REGISTERED and ready_for_next_attack:
 		attack() # 攻击
-		pass
+		
 
 #攻击函数
 func attack() -> void:
