@@ -1,6 +1,6 @@
 extends Panel
 
-@onready var fsm_node : Node = get_node(^"../../player/StateMachine")
+@onready var fsm_node : Node = get_node(^"../../Player/StateMachine")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
