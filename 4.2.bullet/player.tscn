@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://yafd8sm3va4p"]
+
+[ext_resource type="Texture2D" uid="uid://co67crgwfd7vr" path="res://icon.svg" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://dk61rr0va2ndi" path="res://player.gd" id="1_onrkg"]
+[ext_resource type="Script" uid="uid://bna6tsamejmri" path="res://bullet_spawn.gd" id="3_i3pqv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
+size = Vector2(123, 123)
+
+[node name="Player" type="CharacterBody2D" unique_id=25745127]
+position = Vector2(569, 319)
+script = ExtResource("1_onrkg")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2131256217]
+texture = ExtResource("1_4flbx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=109126330]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_onrkg")
+
+[node name="BulletSpawn" type="Node2D" parent="." unique_id=395320777]
+script = ExtResource("3_i3pqv")
+
+[node name="CoolDownTimer" type="Timer" parent="BulletSpawn" unique_id=607909567]
+wait_time = 0.2
+one_shot = true
