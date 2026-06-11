@@ -1,4 +1,6 @@
-extends "../motion.gd"
+extends Node
+
+var isactive : =false
 
 #基础最大  水平速度
 @export var base_max_horizontal_speed := 400.0
@@ -21,6 +23,7 @@ var horizontal_velocity := Vector2() #水平速度向量
 var vertical_speed := 0.0  #垂直速度
 var height := 0.0		   #跳跃高度
 
+
 #初始化函数
 func initialize(speed:float,velocity:Vector2) ->void:
 	#设置水平速度
@@ -35,9 +38,10 @@ func initialize(speed:float,velocity:Vector2) ->void:
 	
 	#保存进入状态时的速度
 	enter_velocity = velocity
+	enter()
 
-#开始时	
-func enter()->void:
+# Called when the node enters the scene tree for the first time.
+func enter() -> void:
 	#获取输入方向
 	var input_direction := get_input_direction()
 	#更新面向方向
@@ -52,12 +56,14 @@ func enter()->void:
 		horizontal_velocity = Vector2()
 	#设置初始化垂直速度 （向上跳跃）
 	vertical_speed = 600.0
-	
-	# 播放空闲动画
-	owner.get_node(^"AnimationPlayer").play("idle")
+	isactive = true
 
-# 更新函数  _physics_process
-func update(delta:float) -> void:
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if !isactive:
+		return
 	#获取输入方向
 	var input_direction := get_input_direction()
 	#更新面向方向
@@ -70,32 +76,54 @@ func update(delta:float) -> void:
 	
 	#如果高度 <=0 (落地)
 	if height <=0.0:
-		#发射完成信号，返回到前一个状态
-		finished.emit("previous")
-	
+		isactive=false
+		
+
 #水平移动函数	
 func move_horizontally(delta:float,direction:Vector2) -> void:
-	
+	print("--------------------------------------------------")
+	print("ori _ horizontal_speed : ",horizontal_speed ,"  air_acceleration : ",air_acceleration,"  delta :",delta, " air_acceleration * delta:",air_acceleration * delta)
+
 	#根据是否有方向输入计算水平速度
 	if direction:
 		#有方向输入 ： 加速
 		horizontal_speed += air_acceleration * delta
+		
+		print("horizontal_speed += air_acceleration * delta")
 	else:
 		#无方向输入  ： 减速
 		horizontal_speed -= air_deceleration * delta
+		
+		print("horizontal_speed -= air_acceleration * delta")
+		
+	print("math _ horizontal_speed : ",horizontal_speed )
+	
 	#限制水平速度在 0 到 最大速度 之间
 	horizontal_speed = clamp(horizontal_speed,0,max_horizontal_speed)
+	
+	print("clamp _ horizontal_speed : ",horizontal_speed ," direction :",direction )
+	
 	#计算目标速度向量
 	var target_velocity := horizontal_speed * direction.normalized()
+	
+	print("target_velocity : ",target_velocity ,"  horizontal_velocity:" ,horizontal_velocity)
+	print("target_velocity- horizontal_velocity : ",(target_velocity- horizontal_velocity) ,"(target_velocity- horizontal_velocity).normalized() :",((target_velocity- horizontal_velocity).normalized()) )
+	
 	#计算转向速度（从当前速度向目标速度平滑过渡）
 	var steering_velocity := (target_velocity- horizontal_velocity).normalized()*air_steering_power
+	
+	print("steering_velocity：" , steering_velocity)
+	
 	#应用转向速度
 	horizontal_velocity += steering_velocity
+	
+	print("horizontal_velocity += steering_velocity  end : horizontal_velocity :",horizontal_velocity)
+	
 	#应用速度到拥有者节点
 	owner.velocity = horizontal_velocity
 	#执行移动
 	owner.move_and_slide()
-
+	print("--------------------------------------------------")
 #跳跃高度动画函数
 func animate_jump_height(delta:float) -> void:
 	#print("ori---vertical_speed:",vertical_speed)
@@ -110,4 +138,13 @@ func animate_jump_height(delta:float) -> void:
 	#更新身体枢轴点的y位置（模拟跳跃高度变化）
 	owner.get_node(^"BodyPivot").position.y = -height
 	
-	
+
+func get_input_direction()-> Vector2:
+	return Vector2(
+		Input.get_axis("ui_left","ui_right"),
+		Input.get_axis("ui_up","ui_down")
+	)
+
+func update_look_direction(direction:Vector2)->void:
+	if direction and owner.look_direction != direction:
+		owner.look_direction = direction
