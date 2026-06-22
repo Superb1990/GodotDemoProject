@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://en41q0ug33fm"]
+
+[ext_resource type="Script" uid="uid://d0pxy7mn5nv8b" path="res://beach_cave.gd" id="1_o4nbv"]
+[ext_resource type="Texture2D" uid="uid://nqnkttyqt15k" path="res://ocean_beach.png" id="1_tgjkx"]
+[ext_resource type="Texture2D" uid="uid://ckwnfvkk0y3u3" path="res://ocean_cave.png" id="2_asnlo"]
+
+[sub_resource type="Environment" id="Environment_o4nbv"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.08
+
+[node name="BeachCave" type="Node2D" unique_id=1438506606]
+script = ExtResource("1_o4nbv")
+
+[node name="Beach" type="Sprite2D" parent="." unique_id=1806596132]
+modulate = Color(2, 2, 2, 1)
+self_modulate = Color(2, 2, 2, 1)
+texture = ExtResource("1_tgjkx")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 3840, 720)
+
+[node name="Cave" type="Sprite2D" parent="." unique_id=247256573]
+self_modulate = Color(0.23137255, 0.21960784, 0.23529412, 1)
+scale = Vector2(1.2, 1)
+texture = ExtResource("2_asnlo")
+centered = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1736264460]
+environment = SubResource("Environment_o4nbv")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1039505865]
+offset = Vector2(540, 360)
+
+[node name="Label" type="Label" parent="." unique_id=1696371305]
+visible = false
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 294.0
+offset_bottom = 70.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Drag left and right with the mouse
+G: Toggle glow map (lens dirt effect)"

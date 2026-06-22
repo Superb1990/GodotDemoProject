@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://1trtdiho4kq7"]
+
+[ext_resource type="PackedScene" uid="uid://b6yxc6od5vjl3" path="res://ball.tscn" id="1_2oy37"]
+[ext_resource type="Script" uid="uid://cihnxwib5g4o0" path="res://ball_factory.gd" id="1_wqwmj"]
+
+[node name="SceneInstancing" type="Node2D" unique_id=209059017]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1345433352]
+
+[node name="InfoLabel" type="Label" parent="CanvasLayer" unique_id=2001713016]
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 371.0
+offset_bottom = 35.0
+text = "Click the mouse to spawn a new Ball instance."
+horizontal_alignment = 1
+
+[node name="BallFactory" type="Node2D" parent="CanvasLayer" unique_id=982576271]
+script = ExtResource("1_wqwmj")
+
+[node name="Static" type="StaticBody2D" parent="." unique_id=353344771]
+
+[node name="Collision" type="CollisionPolygon2D" parent="Static" unique_id=798578484]
+position = Vector2(558, 345)
+scale = Vector2(62.4, 38.16)
+polygon = PackedVector2Array(-6.2980766, -5.8438153, -6.2980766, 7.651991, 8.573718, 7.651991, 8.573718, -6.1320753, 7.4839735, 5.5293503, 5.9134607, 4.271488, 5.1282043, 4.4549265, 4.374999, 5.0314465, 3.6057692, 6.1582813, 2.5961533, 6.551363, 0.6730766, 6.472746, -1.442308, 5.424528, -2.1474361, 3.9832287, -3.0448718, 2.8825998, -4.3108974, 5.5555553, -5.2403846, 6.1844864)
+
+[node name="Polygon2D" type="Polygon2D" parent="Static" unique_id=860745005]
+color = Color(1, 0.3018585, 0.3263094, 1)
+polygon = PackedVector2Array(164, 120, 165, 638, 1094, 638, 1095, 112, 1023, 558, 928, 508, 879, 512, 829, 538, 788, 577, 734, 588, 597, 591, 467, 552, 425, 496, 369, 455, 290, 555, 230, 579)
+
+[node name="Ball" parent="." unique_id=205730509 instance=ExtResource("1_2oy37")]
+position = Vector2(240, 271)
+
+[node name="Ball2" parent="." unique_id=613094528 instance=ExtResource("1_2oy37")]
+position = Vector2(963, 378)
+
+[node name="Ball3" parent="." unique_id=987453361 instance=ExtResource("1_2oy37")]
+position = Vector2(663, 529)
+
+[node name="Ball4" parent="." unique_id=649273701 instance=ExtResource("1_2oy37")]
+position = Vector2(493, 415)
+
+[node name="Ball5" parent="." unique_id=1374151431 instance=ExtResource("1_2oy37")]
+position = Vector2(316, 416)
+
+[node name="Ball6" parent="." unique_id=1702568275 instance=ExtResource("1_2oy37")]
+position = Vector2(425, 262)
+
+[node name="Ball7" parent="." unique_id=2038797246 instance=ExtResource("1_2oy37")]
+position = Vector2(768, 380)
+
+[node name="Ball8" parent="." unique_id=1430156967 instance=ExtResource("1_2oy37")]
+position = Vector2(635, 256)
+
+[node name="Ball9" parent="." unique_id=715290488 instance=ExtResource("1_2oy37")]
+position = Vector2(832, 267)
+
+[node name="Ball10" parent="." unique_id=1789511846 instance=ExtResource("1_2oy37")]
+position = Vector2(949, 271)
